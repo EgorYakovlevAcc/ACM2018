@@ -1,0 +1,195 @@
+\documentclass[12pt]{article}
+\usepackage{ucs}
+\usepackage[utf8x]{inputenc} % Включаем поддержку UTF8
+\usepackage[russian]{babel}  % Включаем пакет для поддержки русского языка
+\usepackage{setspace}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usetikzlibrary{trees}
+\usepackage{verbatim}
+\usepackage[left=2cm,right=2cm,
+top=2cm,bottom=2cm,bindingoffset=0cm]{geometry}
+\usepackage{amsmath} % cases
+\spacing{1.3}
+
+\begin{document}
+		\subsection*{Задача 1}
+			Пусть $X \in N$ - число пройденных светофоров до первой остановки. 
+			$P\{X\} = 0.3^{X}\cdot 0.7$, если $X \in [0, 2]$, где $P(\bar{X}) = 1 - 0.3 = 0.7$ - вероятность остановки на светофоре  \\
+			$P\{X\} = 0.3^{X}$, если $X = 3$ \\
+			Распределение числа пройденных светофоров\\
+			\begin{tabular}{ | l | l | l | l | l |}
+				\hline
+				$X$ & 0 & 1 & 2 & 3 \\ \hline
+				$P\{X\}$ & 0.7 & 0.21 & 0.063 & 0.027 \\ \hline
+			\end{tabular}
+			\newline
+			\textit{Математическое ожидание величины} $X$: $E<X> \stackrel{\rm def}{=} \sum\limits_{i=1}^{n}X_{i}P\{X_{i}\} = 0.7\cdot 0 + 0.21\cdot 1 + 0.063\cdot2 + 0.027\cdot3 = 0.417$ \\
+			\textit{Дисперсия} $X$: $D<X> \stackrel{\rm def}{=} E[(X - E<X>)^{2}] = E<X^{2}> - (E<X>)^2 = 0.705 - 0.174 = 0.531$\\
+			$E<X^{2}> = 0.705$; $(E<X>)^{2} = (0.417)^2 \approx 0.174$\\
+			\fbox{\textbf{Ответ:} $E<X> = 0.705$; $D<X> = 0.531$}
+			
+			\subsection*{Задача 2}
+				$0 < x,y < 1$\\
+				Найти: $P<[(x+y) \leq 1] \wedge [xy \geq 0.09]> = P'$ \\
+			\begin{tikzpicture}
+			\begin{axis}[
+			xlabel = $x$,
+			ylabel = {$f(x)$},
+			xmin=0, xmax=1,
+			ymin=0, ymax=1,
+			]
+			\addplot [
+			axis lines = left,
+			domain= 0:1,
+			samples=100, 
+			color=red,
+			]
+			{1-x};
+			\addlegendentry{$1-x$}
+			\addplot [
+			domain= 0:1, 
+			samples=100, 
+			color=blue,
+			]
+			{0.09/x};
+			\addlegendentry{$\frac{0.09}{x}$}
+			\addplot coordinates {
+				(0.1,0.9) (0.9,0.1)
+			};
+			\end{axis}
+			\end{tikzpicture}	
+			\newline
+			$S_{all} = 1\cdot1 = 1$ \\
+			$S_{pos} = \frac{1}{2}\cdot1\cdot1 - \int\limits_{0.1}^{0.9} (\frac{0.09}{x})\,dx \approx 0.414$	\\
+			Из определения геометрической вероятности: $P' = \frac{S_{pos}}{S_{all}} = \frac{0.414}{1} = 0.414$ \\
+			\fbox{\textbf{Ответ:} $P' = 0.414$}		
+			\subsection*{Задача 3}
+			Достать 1 шар из первой урны и достать 1 шар из второй урны - 2 независимых события.\\
+			Пусть события $A$ - достали белый шар из первой урны, $B$ - достали белый шар из второй урны.\\
+			$P(A\cap B)$ - вероятность \textit{совместного} наступления событий $A$ и $B$. Из условия задачи следует, что $A$ и $B$ - независимые события $\Rightarrow P(A\cap B) = P(A)P(B) = \frac{11}{16} \cdot \frac{7}{16} = \frac{77}{256} \approx 0.3$\\    	
+			\fbox{\textbf{Ответ:} 0.3}
+			
+			\subsection*{Задача 4}
+			$f(x)$ - плотность вероятности случайной величины $\xi$\\
+			$F_{\xi}(x)$ - функция распределения $\xi$\\
+			$
+			f(x) =
+			\begin{cases}
+				0, & x \leq 1 \\
+				C(x^{2} - 1), & 1 < x \leq 3 \\
+				0, & x > 3 
+			\end{cases}
+			$
+			$\Longrightarrow$	
+			$
+			F_{\xi}(x) =
+			\begin{cases}
+			0, & x \leq 1 \\
+			0 + [C(\frac{x^{3}}{3} - x)]\bigg|_{1}^{x}, & 1 < x \leq 3\\
+			0 + C(\frac{x^{3}}{3} - x)\bigg|_{1}^{3} + 0 & x > 3
+			\end{cases}
+			$	
+			\newline
+			$F_{\xi}(x) \stackrel{def}{=} \int\limits_{-\infty}^{x}f(t)\,dt$\\
+			Используем свойство плотности вероятности: для нахождения константы $C$\\
+			$\int\limits_{-\infty}^{+\infty}f(x)\,dx = 1$\\
+			$\int\limits_{-\infty}^{+\infty}f(x)\,dx = \int\limits_{-\infty}^{1}f(x)\,dx + \int\limits_{1}^{3}f(x)\,dx + \int\limits_{3}^{+\infty}f(x)\,dx = 0 + \int\limits_{1}^{3}f(x)\,dx + 0 = \int\limits_{-\infty}^{1}f(x)\,dx = C\cdot[(\frac{27}{3} -- 3) - (\frac{1}{3} - 1)] = C(6 + \frac{2}{3}) = C\cdot\frac{20}{3} = 1$
+			$\Rightarrow C = \frac{3}{20}$ \\
+			Тогда с учётом $C = \frac{3}{20}$ получаем функцию распределения:\\
+			$$
+			F_{\xi}^(x) =
+			\begin{cases}
+			0, & x \leq 1 \\
+			\frac{3}{20}(\frac{x^{3}}{3} - x) + 0.1, & 1 < x \leq 3 \\
+			1, & x > 3
+			\end{cases}
+			\leqno(\beta)$$				
+			\newline
+			Рассчитаем математичечкое ожидание непрерывной случайной величины:\\
+			\begin{align*}
+				E(\xi = x) \stackrel{\rm def}{=}  \int\limits_{-\infty}^{+\infty}(x\cdot f(x)\,dx) = \int\limits_{-\infty}^{1}(x\cdot f(x)\,dx) + \int\limits_{1}^{3}(x\cdot f(x)\,dx) + \int\limits_{3}^{+\infty}(x\cdot f(x)\,dx) = \int\limits_{1}^{3}x\cdot \frac{3}{20}(x^{2} - 1)\,dx = \\
+				= \frac{3}{20}(\frac{x^{4}}{4} - \frac{x^2}{2}) =  =\frac{3}{20}(\frac{x^{4}}{4} - \frac{x^2}{2})\bigg|_{1}^{3} = \frac{3}{20}(\frac{81}{4} - \frac{9\cdot 2}{2\cdot 2}) - \frac{3}{20}(\frac{1}{4} - \frac{2}{4}) = \frac{3}{20}\cdot16 = \frac{12}{5} \Rightarrow E(\xi) = \frac{12}{5} = 2.4
+			\end{align*}
+			Теперь рассчитаем дисперсию $D(\xi)$ для непрерывной случайной величины:
+			\begin{align*}
+				D(\xi) \stackrel{\rm def}{=} \int\limits_{-\infty}^{+\infty}[x - E(\xi = x)]f(x)\,dx = \int\limits_{-\infty}^{+\infty}(x^{2}\cdot f(x)\,dx) - (E(x))^{2} = \int\limits_{1}^{3}(x^{2}\cdot (\frac{3}{20}({x^2} - 1)))\,dx - (\frac{12}{5})^2 = \\
+				=\frac{3}{20}(\frac{x^{5}}{5} - \frac{x^{3}}{3})\bigg|_{1}^{3} - \frac{144}{25} = 40\cdot \frac{3}{20} - \frac{144}{25} = 6 - 5.76 = 0.24 \Rightarrow D(\xi) = 0.24
+			\end{align*}
+			Найдём вероятность $P(-10 \leq \xi < 2)$ как интеграл:
+			\begin{align*}
+				P(-10 \leq \xi < 2) = \int\limits_{-10}^{2}(f(x)\,dx) = \int\limits_{-10}^{1}(f(x)\,dx) + \int\limits_{1}^{2}(f(x)\,dx) = 0 + F_{\xi}(2) = \\
+				= \frac{3}{20}(\frac{2^{3}}{3} - 2) + 0.1 = \frac{3}{20}\cdot \frac{2}{3} + 0.1 = 0.2 \Rightarrow P(-10 \leq \xi < 2) = 0.2 
+			\end{align*}
+			\begin{tabular}{|l|}
+				\hline
+				\textbf{Ответ:} \\ 
+				1. $C = \frac{3}{20}$ ; $F_{\xi}(x) \; (\beta)$ \\
+				2. $E(\xi = x) = 2.4$; $D(\xi = x) = 0.24$ \\
+				3. $P(-10 \leq \xi < 2) = 0.2$ \\
+				\hline
+			\end{tabular}
+		\subsection*{Задача 5}
+			Пусть событие $A$ - сообщили обсерватория I, что объект в состоянии $H_{1}$, а обсерватория II - в состоянии $H_{2}$\\
+			Апостериорная вероятность того, что объект находится в состоянии $H1$ при условии наступления события $A$: $P(H_{1}|A) = \frac{P(A|H_{1})\cdot P(H_{1})}{P(A)}$\\
+			$P(H_{1}) = 0.6$ \\
+			Воспользуемся формулой полной вероятности: $P(A) = P(A|H_{1})P(H_{1}) + P(A|H_{2})P(H_{2})$\\
+			$P(A|H_{1}) = 0.9\cdot 0.2 = 0.18$\\
+			$P(A|H_{2}) = 0.1\cdot 0.8 = 0.08$\\
+			$P(A) = 0.18\cdot 0.6 + 0.08\cdot 0.4 = 0.14 \Rightarrow P(A) = 0.14$ \\
+			$\Downarrow$\\
+			$P(H_{1}|A) = \frac{0.18\cdot 0.6}{0.14} \approx 0.77$\\
+			\fbox{\textbf{Ответ: }$P(H_{1}|A) = 0.77$}
+		\subsection*{Задача 6}
+			Пусть событие $A$ - \underline{в первый раз} извлекли чёрный шар, \\
+			событие $B$ - \underline{во второй раз} извлекли белый шар\\
+			\textit{Необходимо найти:} $P(B|A)$
+			\paragraph*{Способ I}
+				\textit{В первый раз} достали чёрный шар: $P(A) = \frac{5}{16}$. Соответсвенно, осталось всего 15 шаров: 4 чёрных и 11 белых. \\
+				\textit{Во второй раз} взяли уже белый шар:\\
+				Пусть $P(B|A)$ - вероятность наступления события $B$ после при условии наступления $A$. Тогда:\\
+				\underline{$P(B|A) = \frac{11}{15}$}\\
+			\paragraph*{Способ II}
+				Воспользуемся формулой условной вероятности: \\
+				$P(B|A) = \frac{P(AB)}{P(A)}$ \\
+				$P(A) = \frac{5}{16}$ - вероятность, что извлекли в первый раз именно чёрный шар\\
+				$P(AB)$ - вероятность совместного наступления событий $A$ и $B$, т.е. вероятность того, что в первый раз мы вытянули именно чёрный шар, а во второй - именно белый \\
+				$P(A) = \frac{5}{16}$ \\
+				$P(AB) = \frac{5\cdot 11}{16\cdot 15}$, где $(5 \cdot 11)$ - количество способов выбрать сначала чёрный, а затем белый шарики, $(16 \cdot 15)$ - количество спосбов выбрать 2 \textit{любых} шара из 16 (без возвращения)\\
+				Откуда получаем, что $P(B|A) = \frac{P(AB)}{P(A)} = \frac{\frac{11}{48}}{\frac{5}{16}} = \frac{11}{15}$ \\
+				\underline{$P(B|A) = \frac{11}{15}$}\\
+				\newline
+			\fbox{Ответ:$ \;P(B|A) = \frac{11}{15}$}
+		\subsection*{Задача 7}	
+			$f(x)$ - плотность вероятности случайной величины $\xi$ - времени безотказной работы прибора\\
+			$F_{\xi}(x)$ - функция распределения $\xi$\\
+			$$
+			f(x) =
+			\begin{cases}
+			0, & x < 0 \\
+			2e^{-2x}, & 0 \leq x \\ 
+			\end{cases}
+			$$
+			$$
+			F_{\xi}(x) = 
+			\begin{cases}
+			0, & x < 0 \\
+			-e^{-2x} + 1, & 0 \leq x \\ 
+			\end{cases} (\alpha)
+			$$
+			Определим вероятность $P(\xi \leq 1)$, что прибор проработает не более года:\\
+			$P(\xi \leq 1) \stackrel{\rm def}{=} F_{\xi}(1) = -e^{-2} + 1 \approx 0.86$ \\
+			Определим вероятность $P(\xi \geq 3)$, что прибор безотказно проработает 3 года, то есть \textit{не менее} 3 лет: \\
+			$P(\xi \geq 3) = 1 - P(\xi < 3) = 1 - F_{\xi}(3) = 1 - 1 + e^{-6} = 0.002$ \\
+			Среднее время безотказной работы прибора - математическое ожидание:\\
+			$E<\xi = X> \stackrel{\rm def}{=} \int\limits_{-\infty}^{+\infty}x\cdot f(x)\,dx = \int\limits_{0}^{+\infty}x\cdot(2e^{-2x})\,dx = -2\cdot (\frac{1}{4}e^{-2x}(2x + 1))\bigg|_{0}^{+\infty} = 0 + \frac{1}{2}\cdot 1 = 0.5$\\
+			\begin{tabular}{|l|}
+				\hline
+				\textbf{Ответ:} \\ 
+				1. $F_{\xi}(x) \; (\alpha)$ \\
+				2. $P(\xi \leq 1) = 0.86$ \\
+				3. $P(\xi \geq 3) = 0.002$ \\
+				4. $E<\xi = X> = 0.5 года$ \\
+				\hline
+			\end{tabular}			
+\end{document}

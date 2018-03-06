@@ -1,0 +1,188 @@
+\documentclass[12pt]{article}
+% Эта строка — комментарий, она не будет показана в выходном файле
+\usepackage{ucs}
+\usepackage[utf8x]{inputenc} % Включаем поддержку UTF8
+\usepackage[russian]{babel}  % Включаем пакет для поддержки русского языка
+\usepackage{setspace}
+\usepackage{tikz}
+\usetikzlibrary{trees}
+\usepackage{verbatim}
+\usepackage[left=2cm,right=2cm,
+top=2cm,bottom=2cm,bindingoffset=0cm]{geometry}
+\spacing{1.3}
+
+\begin{document}
+	\section*{Задача 1}
+			\textbf{Доказать: } ${(n + a)}^p = O({n}^p)$ \newline
+			$\forall a \in R$ \newline
+			$\forall p > 0$ \newline
+			Рассмотрим предел отношения \newline
+			$\lim_{n\to\infty} \frac{{(n + a)}^p}{{n}^p}={\lim_{n\to\infty} (1 + \frac{a}{n})}^p = {(\lim_{n\to\infty} (1 + \frac{a}{n}))}^p = {1}^p = 1$ $\in R$ - существует конечный предел отношения \newline
+			$\Downarrow$ \\
+			\fbox{${(n + a)}^p = O({n}^p)$}
+	\section*{Задача 2}
+	$T(n) = 1\cdot T(\frac{n}{5}) + 1\cdot T(\frac{7n}{10}) + cn$ \newline
+	Построим дерево рекурсии: \newline
+	\tikzstyle{level 1}=[level distance=2.5cm, sibling distance=7.5cm]
+	\tikzstyle{level 2}=[level distance=2.5cm, sibling distance=2.5cm]
+	\tikzstyle{level 3}=[level distance=2.5cm, sibling distance=1.5cm]
+	
+	\tikz
+	\node {$(cn)$}
+	child { node {$c(\frac{n}{5})$}
+		child { node {$c(\frac{n}{25})$}
+			child{node {$T(1)$}}
+			child{node {$...$}}
+		}
+		child { node {$c(\frac{7n}{50})$}
+			child{node {$...$}}
+			child{node {$...$}}
+		}
+	}
+	child { node {$c(\frac{7n}{10})$}
+		child { node {$c(\frac{7n}{50})$}
+			child{node {$...$}}
+			child{node {$...$}}
+		}
+		child { node {$c(\frac{49n}{100})$}
+			child{node {$...$}}
+			child{node {$...$}}
+		}
+	}
+	; \\
+	Самый длинный путь от корня дерева до его листа: \newline
+	 $n \rightarrow (\frac{7}{10})n \rightarrow (\frac{49}{100})\rightarrow ...$\newline
+	${(\frac{7}{10})}^k\cdot n = 1$ \newline
+	$k = \log_{\frac{7}{10}}{n}$ - высота дерева \newline
+	Ождиаем что решение рекурентного соотношения: $O(n)$ \newline
+	Предположим, что асимптотичесая верхняя граница решения представляет собой: $O(n)$ \newline
+	Покажем, что $T(n) \leq d\cdot n$, где $d$ - подходящая положительная константа
+	$T(n) = T(\frac{n}{5}) + T(\frac{7n}{10}) + cn$ \newline
+	$\leq d(\frac{n}{5}) + d(\frac{7n}{10}) + cn = $ \newline
+	$= (\frac{9n}{10})\cdot d + cn$ \newline
+	$\leq dn$ \newline
+	Подберём константу d: \newline
+	$(\frac{9}{10})d + c \leq d \Rightarrow c \leq \frac{1}{10}d $\newline
+	$10c \leq d$ - можно подобрать такие $d$ в зависимости от константы $c$, что будет выполняться:\\
+	$T(n) \leq dn$	\\
+	$\Downarrow$ \\
+	\fbox{$T(n) = O(n)$}
+	\section*{Задача 3}
+	\subsection*{(a)}
+	$f_{n} = f_{n}^{h} + f_{n}^{p}$, где \newline
+	$f_{n}^{h}$ - решение соответствующего однородного рекурентного соотношения \newline
+	$f_{n}^{p}$ - частное решение \newline
+	(по условию) частное решение $x_{k} = ak + b$ \newline
+	$x_{k+3} - 7x_{k+2} + 15x_{k+1} -9x_{k} = 4$; - неоднородное рекурентное соотношение\newline
+	$x_{0} = 3; x_{1} = 9; x_{2} = 31$ \newline
+	Рассмотрим характеристическое уравнение для однородного уравнения $x_{k+3} - 7x_{k+2} + 15x_{k+1} -9x_{k} = 0$ \newline
+	${\lambda}^3 -7{\lambda}^2 + 15{\lambda} - 9 = 0$ \newline
+	${({\lambda} - 3)}^2\cdot({\lambda} - 1) = 0$ \\
+	Решения уравнения $\lambda_{1,2} = 3$; $\lambda_{3} = 1$ \newline
+	$f_{n}^{h} = (c_{0} + c_{1}\cdot n){3}^n + c_{2}$ \newline
+	Найдём коэффициенты для частного решения: \newline
+	$a(n+3) + b - 7a(n+2) - 7b + 15a(n+1) + 15b - 9an - 9b = 4$ \newline
+	$an + 3a +b-7an -14a-7b + 15an + 15a + 15b -9an - 9b = 4;$
+	$4a = 4 \rightarrow a = 1$ \\
+	$f_{n} = (c_{0} + c_{1}n)\cdot{3}^n + c_{2} + n$
+	$$  
+	\left\{  
+	\begin{array}{lcl}  
+	f_{0} = \textit{3} - 0 = 3 = c_{0} + c_{2} \\  
+	f_{1} = \textit{9} - 1 = 8 = (c_{0} + c_{1})\cdot 3 + c_{2}\\
+	f_{2} = \textit{31} - 2 = 29 = (c_{0} + c_{1}\cdot 2)\cdot 9 + c_{2}\\
+	\end{array}   
+	\right.  
+	$$  	
+	$$  
+	\left\{  
+	\begin{array}{lcl}  
+	c_{0} = 1\\
+	c_{1} = 1 \\
+	c_{2} = 2\\
+	\end{array}   
+	\right.  
+	$$ 
+	\fbox{$f_{n} = (1 + n)\cdot{3}^n + 2 + n$} \\
+	\subsection*{(b)}
+	$x_{k+2} = x_{k+1} + x_{k}$ - числа Фибоначчи \\
+	$x_{k+2} - x_{k+1} - x_{k} = 0$ - однородное рекурентное соотношение\\
+	$x_{0} = 1; x_{1} = 1$ \\
+	Составим характеристическое уравнение с $\lambda$ \\
+	${\lambda}^2 - {\lambda} - 1 = 0$ \\
+	$D = 1 + 4 = 5 > 0$ \\
+	$\lambda_{1,2} = \frac{1 \pm \sqrt{5}}{2}$ \\
+	$\Downarrow$ \\
+	$f_{n} = c_{1}{(\frac{1 + \sqrt{5}}{2})}^n + c_{2}{(\frac{1 - \sqrt{5}}{2})}^n$ \\
+	$$  
+	\left\{  
+	\begin{array}{lcl}  
+	x_{0} = c_{1} + c_{2} = 1\\
+	x_{1} = {(\frac{1 + \sqrt{5}}{2})}c_{1} + (\frac{1 - \sqrt{5}}{2})c_{2} = 1\\
+	\end{array}   
+	\right.  
+	$$ 
+	$$  
+	\left\{  
+	\begin{array}{lcl}  
+	c_{2} = 1 - c_{1}\\
+	\frac{1 + \sqrt{5}}{2}c_{1} + \frac{1 - \sqrt{5}}{2} - c_{1}\frac{1 - \sqrt{5}}{2} = 1\\
+	\end{array}   
+	\right.  
+	$$ 
+	$$  
+	\left\{  
+	\begin{array}{lcl}  
+	c_{1} = \frac{1 + \sqrt{5}}{2\sqrt{5}}\\
+	c_{2} = \frac{\sqrt{5} - 1}{2\sqrt{5}}\\
+	\end{array}   
+	\right.  
+	$$	
+	$f_{n} = \frac{\sqrt{5} + 1}{2\sqrt{5}}{(\frac{1 + \sqrt{5}}{2})}^n + \frac{1 - \sqrt{5}}{2\sqrt{5}}{(\frac{1 - \sqrt{5}}{2})}^n$ \\
+	\fbox{$f_{n} = \frac{1}{\sqrt{5}} {(\frac{1 + \sqrt{5}}{2})}^{n+1} - \frac{1}{\sqrt{5}} {(\frac{1 - \sqrt{5}}{2})}^{n+1}$} \\
+	\section*{Задача 4}
+	$T(n) = 5T(\frac{n}{7}) + n{(log(n))}^2$
+	$a = 5; b = 7$ \\
+	${n}^{log_{7}{5}} \approx O({n}^{0,8})$\\
+	$f(n) = \Omega({n}^{log_{7}{5} + e})$, где $e \approx 0,2$\\
+	$f(n) = \Omega(n) (\Rightarrow \Omega(n) = \{f(n): \exists c, n_{0} > 0$ такие, что $0 \leq cn \leq f(n), \forall n > n_{0}\})$\\
+	Проверим условие регулярности:\\
+	$af(\frac{n}{b}) \leq cf(n)$; $c < 1$ для достаточно больших n \\
+	$af(\frac{n}{b}) = 5(\frac{n}{7})\cdot{(log(\frac{n}{7}))}^2 \leq (\frac{5n}{7})\cdot({log(n)})^2$ \\
+	Докажем неравенство: ${(log(\frac{n}{7}))}^2 \leq {(log(n))}^2$ \\ 
+	$\Updownarrow$\\
+	$\log{\frac{1}{7}}\cdot\log{\frac{{n}^2}{7}} \leq 0$, \\ 
+	$\Uparrow$ \\
+	$\log{\frac{1}{7}} < 0$; $\log{\frac{{n}^2}{7}} > 0$ - при достаточно больших $n$	\\
+	$\Downarrow$ (условия теоремы выполняются) \\
+	\fbox{$T(n) = \Theta(n\cdot {(\log{n}})^2)$} \\
+	\section*{Задача 5}
+	$M(n)$ - число операций умножения, которые используются при перемножении матриц $n\times n$ с помощью алгоритма Штрассена, используя стратегию разделяй и властвуй\\
+	$A(n)$ - число операций сложения
+	Из условия алгоритма известно, что на каждом шаге потребуются 7 операций умножения и 18 операций сложения. Соответсвенно:\\
+	$M(n) = 7M(\frac{n}{2}) = ... = 7^{d-1}\cdot M(1) = 7^{d}$\\
+	$2^{d} = n \Rightarrow d = \log_{2}{n}$\\
+	$\Downarrow$	\\
+	$M(n) = n^{\log_{2}{7}}$ \\
+	%\hline
+	%\underline{$Способ 1:$}\\
+	$A(n) = 7A(\frac{n}{2}) + 18{(\frac{n}{2})}^2 = 7(7\cdot A(\frac{n}{2}) + 18\cdot7{(\frac{n}{4})}^2) + 18{(\frac{n}{2})}^2 = 7^{2}(7\cdot A(\frac{n}{8}) + 18\cdot {(\frac{n}{8})}^2)) + 18\cdot 7\cdot{(\frac{n}{4})}^2 + 18\cdot {(\frac{n}{2})}^2 = 7^{3}\cdot A(\frac{n}{8}) + 7^{2}\cdot 18{(\frac{n}{8})}^2 + 18 \cdot 7{(\frac{n}{4})}^2 + 18\cdot {(\frac{n}{2})}^2$ \\
+	Получаем сумму геометрической прогрессии с первым членом \\ 
+	$b_{1} = 18\cdot {(\frac{n}{2})}^2$ и со знаменателем прогрессии $q = \frac{7}{4}$ \\
+	Тогда по формуле для суммы геометрической прогрессии (для $d$ членов): \\
+	$A(n) = b_{1}\cdot \frac{(q^{n} - 1)}{(q - 1)} = 18{(\frac{n}{2})}^2 \cdot \frac{{(\frac{7}{4})}^{n} - 1}{(\frac{7}{4}) - 1} = 24\cdot {(\frac{n}{2})}^2 \cdot ({(\frac{7}{4})}^n - 1) \leq 6n^{2}\cdot {(\frac{7}{4})}^{d} = 6n^{2}\cdot {(\frac{7}{4})}^{\log_{2}{n}} = 6n^{2}\cdot n^{\log_{2}{\frac{7}{4}}} = 6n^{2}\cdot n^{\log_{2}{7}}\cdot \frac{1}{n^{2}} = 6n^{\log_{2}{7}} \Longrightarrow$ \\
+	$A(n) = 6n^{\log_{2}{7}}$ \\
+	$M(n) + A(n) \approx n^{\log_{2}{7}} + 6n^{\log_{2}{7}} =$ \fbox{$7n^{\log_{2}{7}}$} \\
+	Таким образом, сложность алгоритма равна $O(n^{\log_{2}{7}}) \approx$ \fbox{$O(n^{2.8})$} \\
+	Определим, при каких $n$ алгоритм Штрассена становится быстрее наивного умножения матриц. \\
+	\textbf{Для наивного алгоритма:} $O(n^3): 2n^3$ \\
+	\textbf{Для алгоритма Штрассена:} $O(n^{\log_{2}{7}}): 7n^{\log_{2}{7}}$ \\
+	$7n^{\log_{2}{7}} = 2n^3$ \\
+	$2n^3 - 7n^{\log_{2}{7}} = 0$ \\
+	$n^{\log_{2}{7}}(2n^{3 - \log_{2}{7}} - 7) = 0$ \\
+	$n = 0$ - не подходит, $2n^{3 - \log_{2}{7}} - 7 = 0$ \\
+	$n^{3 - \log_{2}{7}} = \frac{7}{2}$ \\
+	$n = (\frac{7}{2})^{\frac{1}{3 - \log_{2}{7}}}$ \\
+	$\Downarrow$\\
+	\fbox{$n \approx 667$}
+\end{document} 
